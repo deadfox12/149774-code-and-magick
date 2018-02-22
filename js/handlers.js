@@ -5,7 +5,7 @@
   var userNameInput = setup.querySelector('.setup-user-name');
   var setupOpen = document.querySelector('.setup-open-icon');
   var setupClose = setup.querySelector('.setup-close');
-  var dialogHandle = setup.querySelector('.upload');
+  var dialogHandler = setup.querySelector('.upload');
 
   var onPopupEscPress = function (evt) {
     window.util.isEscEvent(evt, closePopup);
@@ -52,13 +52,15 @@
     window.util.isEnterEvent(evt, closePopup);
   });
 
-  dialogHandle.addEventListener('mousedown', function (evt) {
+  dialogHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
+
+    var dragged = false;
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
@@ -67,6 +69,10 @@
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
+
+      if (shift.x !== 0 || shift.y !== 0) {
+        dragged = true;
+      }
 
       startCoords = {
         x: moveEvt.clientX,
@@ -79,9 +85,16 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+
+      if (dragged) {
+        var onClickPreventDefault = function (clickEvt) {
+          clickEvt.preventDefault();
+          dialogHandler.removeEventListener('click', onClickPreventDefault);
+        };
+        dialogHandler.addEventListener('click', onClickPreventDefault);
+      }
     };
 
     document.addEventListener('mousemove', onMouseMove);
