@@ -151,4 +151,14 @@
   });
 
   userNameInput.addEventListener('invalid', invalidity);
+
+
+  var form = setup.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), function () {
+      closePopup();
+      form.reset();
+    }, window.backend.onError);
+  });
 })();
