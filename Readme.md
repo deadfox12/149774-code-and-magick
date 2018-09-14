@@ -1,7 +1,5 @@
 # Учебный проект «Код и Магия» [![Build status][travis-image]][travis-url]
 
-* Студент: [Андрей Калашников](https://up.htmlacademy.ru/javascript/12/user/149774).
-
 ---
 
 _Не удаляйте и не обращайте внимание на папки и файлы:_<br>
